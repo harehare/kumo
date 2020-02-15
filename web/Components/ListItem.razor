@@ -1,0 +1,50 @@
+@using Kumo.Models;
+
+<div class="list-item__main">
+   <NavLink href="@path" Match="NavLinkMatch.All">
+      <div class="list-item__name">@Name</div>
+      <div class="list-item__description">@Description</div>
+      <div class="list-item__date">@displayDate</div>
+  </NavLink>
+  <div class="list-item__delete">
+    <i class="fas fa-trash"></i>
+  </div>
+</div>
+
+@code {
+    string displayDate;
+    string path;
+
+    [Parameter] public string Name { get; set; }
+    [Parameter] public string Url { get; set; }
+    [Parameter] public string Selector { get; set; }
+    [Parameter] public string Description { get; set; }
+    [Parameter] public DateTime? CreatedAt { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (!CreatedAt.HasValue) {
+          return;
+        }
+        path = $"/items/{(new ResultID(Url, Selector)).ToString()}";
+        TimeSpan? s = DateTime.Now - CreatedAt.Value;
+
+        if (!s.HasValue) {
+          return;
+        }
+
+        TimeSpan span = s.Value;
+        if (span.Days <= 0 && span.Hours <= 0 && span.Minutes < 60)
+        {
+            displayDate = $"{span.Minutes} minutes ago";
+        }
+        else if (span.Days <= 0 && span.Hours < 24)
+        {
+            displayDate = $"{span.Hours} hours ago";
+        }
+        else
+        {
+            displayDate = $"{span.Days} days ago";
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "kumo",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "prod": "webpack --mode production"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^7.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "babel-loader": "^8.0.6",
+    "ts-loader": "^6.2.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}

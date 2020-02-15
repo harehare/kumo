@@ -1,0 +1,31 @@
+<div class="nav-menu-item__main">
+  <NavLink href="@Url" Match="NavLinkMatch.All">
+    <div class="nav-menu-item__icon">
+      <i class="@Icon"></i>
+    </div>
+    <div class="nav-menu-item__title">
+      @Title
+    </div>
+  </NavLink>
+</div>
+
+@code {
+
+    private string icon;
+
+    [Parameter]
+    public string Icon {
+      get {
+        return this.icon;
+      }
+      set {
+        this.icon = $"fas fa-{value}";
+      }
+    }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Url { get; set; }
+}

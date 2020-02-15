@@ -1,0 +1,102 @@
+@page "/items"
+@page "/items/{itemID}"
+@attribute [Authorize]
+@using System
+@using System.Linq
+@using Kumo.Store
+@using Kumo.Models
+@inherits Blazor.Fluxor.Components.FluxorComponent
+@inject NavigationManager NavigationManager
+@inject IState<AppState> AppState
+@inject IDispatcher Dispatcher
+
+<div class="form">
+  @if (itemModel!= null) {
+    <EditForm Model="@itemModel" OnValidSubmit="@OnSave">
+      <ObjectGraphDataAnnotationsValidator />
+
+      <FormGroup Title="Web Page">
+        <div class="form__main">
+          <label for="description" class="form__label">Url</label>
+          <InputText id="description" class="form__input" @bind-Value="itemModel.Url" />
+          <ValidationMessage For="@(() => itemModel.Url)" />
+        </div>
+
+        <div class="form__main">
+          <label for="description" class="form__label">Selector</label>
+          <InputText id="description" class="form__input" @bind-Value="itemModel.Selector" />
+          <ValidationMessage For="@(() => itemModel.Selector)" />
+        </div>
+      </FormGroup>
+
+      <FormGroup Title="Monitoring">
+        <div class="form__main">
+          <label for="name" class="form__label">Name</label>
+          <InputText id="name" class="form__input" @bind-Value="itemModel.Name" />
+          <ValidationMessage For="@(() => itemModel.Name)" />
+        </div>
+
+        <div class="form__main">
+          <label for="description" class="form__label">Description</label>
+          <InputText id="description" class="form__input" @bind-Value="itemModel.Description" />
+          <ValidationMessage For="@(() => itemModel.Description)" />
+        </div>
+      </FormGroup>
+
+      <FormGroup Title="Notification">
+        <div class="form__main">
+          <label for="description" class="form__label">WebHook URL</label>
+          <InputText id="description" class="form__input" @bind-Value="itemModel.Notification.WebHookUrl" />
+          <ValidationMessage For="@(() => itemModel.Notification.WebHookUrl)" />
+        </div>
+      </FormGroup>
+
+      <div class="layout__row" style="justify-content:space-evenly;">
+        <SubmitButton Title="Save" />
+        <Button Title="Cancel" OnClick="@OnCancel" />
+      </div>
+    </EditForm>
+  } else {
+    // TODO:
+  }
+</div>
+
+@code {
+    [Parameter]
+    public string ItemID { get; set; }
+
+    private Models.Item itemModel;
+
+    protected override void OnInitialized()
+    {
+        // TODO: fetch items
+        if (ItemID == null) {
+            itemModel = new Models.Item();
+        } else {
+            (string url, string selector) = (new ResultID(ItemID)).Extract();
+            var item = new Models.Item(url, selector);
+            var items = AppState.Value.Items.Cast<Models.Item>().Where(i => i.Equals(item)).ToArray();
+
+            if (items.Length > 0) {
+              itemModel = items[0];
+            }
+        }
+    }
+
+    private void OnSave()
+	  {
+        if (ItemID == null) {
+            // TODO: user
+            Dispatcher.Dispatch(new AddItemAction(null, itemModel));
+        } else {
+            Dispatcher.Dispatch(new UpdateItemAction(null, itemModel));
+        }
+
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void OnCancel() {
+      NavigationManager.NavigateTo("/");
+    }
+
+}

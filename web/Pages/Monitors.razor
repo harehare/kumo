@@ -1,0 +1,27 @@
+﻿@page "/monitors"
+@attribute [Authorize]
+@using Kumo.Store
+@inherits Blazor.Fluxor.Components.FluxorComponent
+@inject IState<AppState> AppState
+@inject IDispatcher Dispatcher
+
+@if (AppState.Value.Items.Length == 0)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div>
+        <List>
+            @foreach (var item in AppState.Value.Items)
+            {
+                <ListItem Name="@item.Name"
+                          Url="@item.Url"
+                          Description="@item.Description"
+                          Selector="@item.Selector"
+                          CreatedAt="@item.CreatedAt"
+                          />
+            }
+        </List>
+    </div>
+}

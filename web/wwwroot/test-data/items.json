@@ -1,0 +1,16 @@
+﻿[
+  {
+    "name": "楽天トラベル",
+    "description": "楽天トラベルのホテル情報比較",
+    "url": "https://textusm.com",
+    "selector": "selector",
+    "notification": {
+      "page_url": "https://textusm.com",
+      "selector": "title",
+      "text": null,
+      "webHookURL": "http://localhost:5000",
+      "time": "2019-10-28T00:00:00Z"
+    },
+    "time": "2019-10-28T00:00:00Z"
+  }
+]

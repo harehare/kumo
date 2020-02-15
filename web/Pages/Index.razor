@@ -1,0 +1,41 @@
+@page "/"
+@attribute [Authorize]
+@using Kumo.Store
+@inherits Blazor.Fluxor.Components.FluxorComponent
+@inject IState<AppState> AppState
+@inject IDispatcher Dispatcher
+
+@if (AppState.Value.Items.Length == 0)
+{
+    <div>
+        <NavLink href="/items">
+          Create a new monitor
+        </NavLink>
+    </div>
+}
+else
+{
+    <div>
+        <List>
+            @foreach (var item in AppState.Value.Items)
+            {
+                <ListItem Name="@item.Name"
+                          Url="@item.Url"
+                          Description="@item.Description"
+                          Selector="@item.Selector"
+                          CreatedAt="@item.CreatedAt"
+                          />
+            }
+        </List>
+    </div>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+      base.OnInitialized();
+      AppState.Subscribe(this);
+      var action = new FetchItemsAction(null);
+		  Dispatcher.Dispatch(action);
+    }
+}

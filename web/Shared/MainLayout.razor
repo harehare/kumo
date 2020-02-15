@@ -1,0 +1,48 @@
+﻿@inherits LayoutComponentBase
+@inject IStore Store
+@inject IState<Kumo.Store.AppState> AppState
+@inject IDispatcher Dispatcher
+@inject IJSRuntime JSRuntime;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Kumo.Store
+@using System;
+
+@Store.Initialize()
+
+<AuthorizeView>
+    <Authorized>
+        <div class="layout__main">
+        <Header>
+            <SignOut />
+        </Header>
+            <div class="layout__row">
+              <NavMenu>
+                <NavMenuItem Icon="spider" Title="Monitors" Url="/monitors" />
+              </NavMenu>
+              <main>
+                  @Body
+              </main>
+            </div>
+          </div>
+    </Authorized>
+    <NotAuthorized>
+        <SignIn />
+    </NotAuthorized>
+    <Authorizing>
+        Authorizing
+    </Authorizing>
+</AuthorizeView>
+
+@code {
+    protected override void OnInitialized()
+    {
+      base.OnInitialized();
+      AppState.Subscribe(this);
+    }
+
+    private async void SignIn()
+    {
+      // TODO:
+      await JSRuntime.InvokeAsync<string>("kumo.signIn", "");
+    }
+}

@@ -1,0 +1,11 @@
+<button class="button" @onclick="OnClick">
+    <span>@Title</span>
+</button>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

@@ -1,0 +1,16 @@
+<header class="header__main">
+    <NavLink href="/">
+      <div class="header__logo">
+          <img src="/img/logo.svg" alt="logo" />
+          <div class="header__text">
+            KUMO
+          </div>
+      </div>
+    </NavLink>
+    @ChildContent
+</header>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

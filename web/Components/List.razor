@@ -1,0 +1,21 @@
+<ul class="list__main">
+  <div class="list__header">
+    <div class="list__header__name">
+      Name
+    </div>
+    <div class="list__header__description">
+      Description
+    </div>
+    <div class="list__header__date">
+      Created
+    </div>
+    <div class="list__header__op">
+    </div>
+  </div>
+  @ChildContent
+</ul>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}
